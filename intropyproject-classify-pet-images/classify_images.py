@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/classify_images.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                 
+# PROGRAMMER: Luis Candanedo
+# DATE CREATED:5/25/2020                                 
 # REVISED DATE: 
 # PURPOSE: Create a function classify_images that uses the classifier function 
 #          to create the classifier labels and then compares the classifier 
@@ -12,7 +12,7 @@
 #             and as in_arg.dir for function call within main. 
 #            -The results dictionary as results_dic within classify_images 
 #             function and results for the functin call within main.
-#            -The CNN model architecture as model within classify_images function
+#            -The CNN model architecture as model wihtin classify_images function
 #             and in_arg.arch for the function call within main. 
 #           This function uses the extend function to add items to the list 
 #           that's the 'value' of the results dictionary. You will be adding the
@@ -22,7 +22,7 @@
 ##
 # Imports classifier function for using CNN to classify images 
 from classifier import classifier 
-
+from os import listdir
 # TODO 3: Define classify_images function below, specifically replace the None
 #       below by the function definition of the classify_images function. 
 #       Notice that this function doesn't return anything because the 
@@ -65,4 +65,22 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """
+    
+    #rint(images_dir)
+    filename_list = listdir(images_dir)
+    for file in filename_list:
+        modelresult = classifier(images_dir+file,model)
+        #rint(modelresult)
+        modelresult = modelresult.lower().strip()
+        #print(modelresult)
+        results_dic[file].extend([modelresult])
+        #print(results_dic)
+        # checking if the labels is in the predicted string)
+        if results_dic[file][0] in modelresult:
+            #print("the {} is in {}".format(results_dic[file][0], modelresult))
+            results_dic[file].extend([1])
+        else:
+            #print("the {} is not in {}".format(results_dic[file][0], modelresult))
+            results_dic[file].extend([0])                         
+    
     None 

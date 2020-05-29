@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/get_pet_labels.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                  
+# PROGRAMMER: Luis Candanedo
+# DATE CREATED: 5/25/2020                                 
 # REVISED DATE: 
 # PURPOSE: Create the function get_pet_labels that creates the pet labels from 
 #          the image's filename. This function inputs: 
@@ -42,4 +42,34 @@ def get_pet_labels(image_dir):
     """
     # Replace None with the results_dic dictionary that you created with this
     # function
-    return None
+    filename_list = listdir(image_dir)
+    #print("\nPrints 10 filenames from folder pet_images/")
+    results_dic = {}
+    for idx in range(0, len(filename_list), 1):
+        #print("{:2d} file: {:>25}".format(idx + 1, filename_list[idx]) )
+        pet_image = filename_list[idx]
+        low_pet_image = pet_image.lower()
+        word_list_pet_image = low_pet_image.split("_")
+        pet_name = ""
+
+        # Loops to check if word in pet name is only
+        # alphabetic characters - if true append word
+        # to pet_name separated by trailing space 
+        for word in word_list_pet_image:
+            if word.isalpha():
+                pet_name += word + " "
+
+            # Strip off starting/trailing whitespace characters 
+        pet_name = pet_name.strip()
+
+        # Prints resulting pet_name
+        #print("\nFilename=", pet_image, "   Label=", pet_name)
+        if pet_image not in results_dic:
+            results_dic[pet_image] = [pet_name]
+        else:
+            print("** Warning: Key=", pet_image, 
+               "already exists in results_dic with value =", 
+                results_dic[pet_image])
+            
+    #print(results_dic)
+    return results_dic
